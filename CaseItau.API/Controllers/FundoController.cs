@@ -31,7 +31,11 @@ namespace CaseItau.API.Controllers
                 f.Nome = reader[1].ToString();
                 f.Cnpj = reader[2].ToString();
                 f.CodigoTipo = int.Parse(reader[3].ToString());
-                f.Patrimonio = decimal.Parse(reader[4].ToString());
+                var patrimonioRaw = reader[4].ToString();
+                if (decimal.TryParse(patrimonioRaw, out decimal patrimonio))
+                {
+                    f.Patrimonio = patrimonio;
+                }
                 f.NomeTipo = reader[5].ToString();                
                 lista.Add(f);
             }
@@ -55,7 +59,12 @@ namespace CaseItau.API.Controllers
                 f.Nome = reader[1].ToString();
                 f.Cnpj = reader[2].ToString();
                 f.CodigoTipo = int.Parse(reader[3].ToString());
-                f.Patrimonio = decimal.Parse(reader[4].ToString());
+                var patrimonioRaw = reader[4].ToString();
+                if (decimal.TryParse(patrimonioRaw, out decimal patrimonio))
+                {
+                    f.Patrimonio = patrimonio;
+                }
+                f.Patrimonio = patrimonio;
                 f.NomeTipo = reader[5].ToString();
                 return f;
             }
