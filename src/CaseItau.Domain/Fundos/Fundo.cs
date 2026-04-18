@@ -37,6 +37,24 @@ public sealed class Fundo : Entity
         return Result.Success(fundo);
     }
 
+    public Result Atualizar(string nome, string cnpj, TipoFundo tipoFundo)
+    {
+        var nomeResult = FundoNome.Criar(nome);
+        if (nomeResult.IsFailure)
+            return Result.Failure(nomeResult.Error);
+
+        var cnpjResult = Cnpj.Criar(cnpj);
+        if (cnpjResult.IsFailure)
+            return Result.Failure(cnpjResult.Error);
+
+        Nome = nomeResult.Value;
+        Cnpj = cnpjResult.Value;
+        TipoFundo = tipoFundo;
+        CodigoTipo = tipoFundo.CodigoTipo;
+
+        return Result.Success();
+    }
+
     public string Codigo { get; private set; }
     public const int CodigoMaxLength = 20;
 

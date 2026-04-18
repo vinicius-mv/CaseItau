@@ -1,5 +1,6 @@
 ﻿using CaseItau.Application.Fundos;
 using CaseItau.Application.Fundos.AdicionarFundo;
+using CaseItau.Application.Fundos.AtualizarFundo;
 using CaseItau.Application.Fundos.ListarFundos;
 using CaseItau.Application.Fundos.MovimentarPatrimonioFundo;
 using CaseItau.Application.Fundos.ObterFundo;
@@ -38,7 +39,10 @@ namespace CaseItau.API.Controllers.Fundos
             var query = new ObterFundoQuery(codigo);
             var result = await _sender.Send(query, cancellationToken);
 
-            return result.IsSuccess ? Ok(result.Value) : NotFound();
+            if (result.IsFailure)
+                return NotFound();
+
+            return Ok(result.Value);
         }
 
         // POST: api/Fundo
@@ -59,14 +63,15 @@ namespace CaseItau.API.Controllers.Fundos
 
         // PUT: api/Fundo/ITAUTESTE01
         [HttpPut("{codigo}")]
-        public void Put(string codigo, [FromBody] FundoResponse value)
+        public async Task<ActionResult> Put(string codigo, AtualizarFundoRequest request)
         {
-            var con = new SQLiteConnection("Data Source=dbCaseItau.s3db");
-            con.Open();
-            var cmd = con.CreateCommand();
-            cmd.CommandText = "UPDATE FUNDO SET Nome = '" + value.Nome + "', CNPJ = '" + value.Cnpj + "', CODIGO_TIPO = " + value.CodigoTipo + " WHERE CODIGO = '" + codigo + "'";
-            cmd.CommandType = System.Data.CommandType.Text;
-            var resultado = cmd.ExecuteNonQuery();
+            var command = new AtualizarFundoCommand(codigo, request.Nome, request.Cnpj, request.CodigoTipo);
+            var result = await _sender.Send(command);
+
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return NoContent();
         }
 
         // DELETE: api/Fundo/ITAUTESTE01
