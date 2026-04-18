@@ -5,7 +5,7 @@ using Dapper;
 
 namespace CaseItau.Application.Fundos.ObterFundo;
 
-public class ObterFundoQueryHandler : IQueryHandler<ObterFundoQuery, FundoResponse>
+internal sealed class ObterFundoQueryHandler : IQueryHandler<ObterFundoQuery, FundoResponse>
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
 

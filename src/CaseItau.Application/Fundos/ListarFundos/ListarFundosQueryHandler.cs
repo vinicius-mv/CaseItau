@@ -5,7 +5,7 @@ using Dapper;
 
 namespace CaseItau.Application.Fundos.ListarFundos;
 
-public class ListarFundosQueryHandler : IQueryHandler<ListarFundosQuery, IReadOnlyList<FundoResponse>>
+internal sealed class ListarFundosQueryHandler : IQueryHandler<ListarFundosQuery, IReadOnlyList<FundoResponse>>
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
