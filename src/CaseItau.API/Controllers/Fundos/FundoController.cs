@@ -1,4 +1,5 @@
 ﻿using CaseItau.Application.Fundos;
+using CaseItau.Application.Fundos.AdicionarFundo;
 using CaseItau.Application.Fundos.ListarFundos;
 using CaseItau.Application.Fundos.ObterFundo;
 using MediatR;
@@ -40,14 +41,18 @@ namespace CaseItau.API.Controllers.Fundos
 
         // POST: api/Fundo
         [HttpPost]
-        public void Post([FromBody] FundoResponse value)
+        public async Task<ActionResult> Post(AdicionarFundoRequest fundo, CancellationToken cancellationToken)
         {
-            var con = new SQLiteConnection("Data Source=dbCaseItau.s3db");
-            con.Open();
-            var cmd = con.CreateCommand();
-            cmd.CommandText = "INSERT INTO FUNDO VALUES('" + value.Codigo + "','" + value.Nome + "','" + value.Cnpj + "',"+value.CodigoTipo.ToString() + ",NULL)";
-            cmd.CommandType = System.Data.CommandType.Text;
-            var resultado = cmd.ExecuteNonQuery();
+            var command = new AdicionarFundoCommand(fundo.Codigo, fundo.Nome, fundo.Cnpj, fundo.CodigoTipo);
+            var result = await _sender.Send(command, cancellationToken);
+
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return CreatedAtAction(
+                actionName: nameof(Get),
+                routeValues: new { codigo = result.Value },
+                value: result.Value);
         }
 
         // PUT: api/Fundo/ITAUTESTE01
