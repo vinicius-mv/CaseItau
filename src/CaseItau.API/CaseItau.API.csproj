@@ -7,23 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="dbCaseItau.s3db" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.115.5" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CaseItau.Application\CaseItau.Application.csproj" />
     <ProjectReference Include="..\CaseItau.Infra\CaseItau.Infra.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="dbCaseItau.s3db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
 
 

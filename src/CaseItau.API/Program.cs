@@ -1,10 +1,13 @@
 using CaseItau.Application;
+using CaseItau.Infra;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
 builder.Services.AddApplication();
+
+builder.Services.AddInfra(builder.Configuration);
 
 var app = builder.Build();
 
