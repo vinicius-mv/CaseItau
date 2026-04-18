@@ -29,7 +29,7 @@ namespace CaseItau.API.Controllers.Fundos
         }
 
         // GET: api/Fundo/ITAUTESTE01
-        [HttpGet("{codigo}", Name = "Get")]
+        [HttpGet("{codigo}")]
         public async Task<ActionResult<FundoResponse>> Get(string codigo, CancellationToken cancellationToken)
         {
             var query = new ObterFundoQuery(codigo);

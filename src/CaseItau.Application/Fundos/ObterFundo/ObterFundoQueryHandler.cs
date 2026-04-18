@@ -1,6 +1,7 @@
 ﻿using CaseItau.Application.Abstractions.Data;
 using CaseItau.Application.Abstractions.Messaging;
 using CaseItau.Domain.Abstractions;
+using CaseItau.Domain.Fundos;
 using Dapper;
 
 namespace CaseItau.Application.Fundos.ObterFundo;
@@ -34,6 +35,9 @@ internal sealed class ObterFundoQueryHandler : IQueryHandler<ObterFundoQuery, Fu
         var queryParams = new { request.Codigo };
 
         var fundo = await connection.QueryFirstOrDefaultAsync<FundoResponse>(sql, queryParams);
+
+        if (fundo is null)
+            return Result.Failure<FundoResponse>(FundoErrors.NaoEncontrado(request.Codigo));
 
         return fundo;
     }

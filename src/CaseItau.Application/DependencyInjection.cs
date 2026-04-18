@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CaseItau.Application.Fundos.AdicionarFundo;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CaseItau.Application;
 
@@ -8,7 +9,7 @@ public static class DependencyInjection
     {
         services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
+            cfg.RegisterServicesFromAssembly(typeof(Application.DependencyInjection).Assembly);
         });
 
         return services;
