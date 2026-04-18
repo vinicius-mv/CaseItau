@@ -10,29 +10,34 @@ namespace CaseItau.Infra.Configurations
         {
             builder.ToTable("FUNDO");
 
-            builder.HasKey(fundo => fundo.Codigo);
+            builder.HasKey(f => f.Codigo);
 
-            builder.Property(fundo => fundo.Codigo).HasColumnName("CODIGO")
-                .HasMaxLength(20)
+            builder.Property(f => f.Codigo)
+                .HasColumnName("CODIGO")
+                .HasMaxLength(Fundo.CodigoMaxLength)
                 .IsRequired();
 
-            builder.Property(fundo => fundo.Nome).HasColumnName("NOME")
-                .HasMaxLength(100)
-                .IsRequired();
+            // VO setup - FundoNome mapped to column NOME
+            builder.OwnsOne(fundo => fundo.Nome, nome =>
+            {
+                nome.Property(n => n.Value).HasColumnName("NOME")
+                    .HasMaxLength(FundoNome.MaxLength)
+                    .IsRequired();
+            });
+
+            // VO setup - Cnpj mapped to column CNPJ
+            builder.OwnsOne(fundo => fundo.Cnpj, cnpj =>
+            {
+                cnpj.Property(c => c.Value).HasColumnName("CNPJ")
+                    .HasMaxLength(Cnpj.RequiredLength)
+                    .IsRequired();
+            });
 
             builder.Property(fundo => fundo.Patrimonio).HasColumnName("PATRIMONIO")
                 .IsRequired(false);
 
             builder.Property(fundo => fundo.CodigoTipo).HasColumnName("CODIGO_TIPO")
                 .IsRequired();
-
-            // VO setup - Cnpj mapped to column CNPJ
-            builder.OwnsOne(fundo => fundo.Cnpj, cnpj =>
-            {
-                cnpj.Property(c => c.Value).HasColumnName("CNPJ")
-                    .HasMaxLength(14)
-                    .IsRequired();
-            });
 
             // Relation 1:N Fundo - TipoFundo
             builder.HasOne(fundo => fundo.TipoFundo)

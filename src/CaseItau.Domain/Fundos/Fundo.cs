@@ -4,7 +4,7 @@ namespace CaseItau.Domain.Fundos;
 
 public sealed class Fundo : Entity
 {
-    private Fundo(string codigo, string nome, Cnpj cnpj, TipoFundo tipoFundo)
+    private Fundo(string codigo, FundoNome nome, Cnpj cnpj, TipoFundo tipoFundo)
     {
         Codigo = codigo;
         Nome = nome;
@@ -16,24 +16,31 @@ public sealed class Fundo : Entity
     // rehydration
     protected Fundo() { }
 
-    public static Result<Fundo> Criar(string codigo, string nome, Cnpj cnpj, TipoFundo tipoFundo)
+    public static Result<Fundo> Criar(string codigo, string nome, string cnpj, TipoFundo tipoFundo)
     {
-        if (string.IsNullOrWhiteSpace(codigo))
+        if (string.IsNullOrEmpty(codigo))
             return Result.Failure<Fundo>(FundoErrors.CodigoObrigatorio);
 
-        if (string.IsNullOrWhiteSpace(nome))
-            return Result.Failure<Fundo>(FundoErrors.NomeObrigatorio);
+        if (codigo.Length > CodigoMaxLength)
+            return Result.Failure<Fundo>(FundoErrors.CodigoMaiorQuePermitido(codigo));
 
-        if (!cnpj.EhValidoCnpj)
-            return Result.Failure<Fundo>(FundoErrors.CnpjInvalido(cnpj.Value));
+        var nomeResult = FundoNome.Criar(nome);
+        if (nomeResult.IsFailure)
+            return Result.Failure<Fundo>(nomeResult.Error);
 
-        var fundo = new Fundo(codigo, nome, cnpj, tipoFundo);
+        var cnpjResult = Cnpj.Criar(cnpj);
+        if (cnpjResult.IsFailure)
+            return Result.Failure<Fundo>(cnpjResult.Error);
+
+        var fundo = new Fundo(codigo, nomeResult.Value, cnpjResult.Value, tipoFundo);
 
         return Result.Success(fundo);
     }
 
     public string Codigo { get; private set; }
-    public string Nome { get; private set; }
+    public const int CodigoMaxLength = 20;
+
+    public FundoNome Nome { get; private set; }
     public Cnpj Cnpj { get; private set; }
     public TipoFundo TipoFundo { get; private set; }
     public decimal? Patrimonio { get; private set; }

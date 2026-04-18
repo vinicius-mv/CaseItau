@@ -26,7 +26,7 @@ public class AdicionarFundoCommandHandler : ICommandHandler<AdicionarFundoComman
         if (tipoFundo is null)
             return Result.Failure<string>(FundoErrors.TipoFundoInvalido(request.CodigoTipo));
 
-        var fundoResult = Fundo.Criar(request.Codigo, request.Nome, new Cnpj(request.Cnpj), tipoFundo);
+        var fundoResult = Fundo.Criar(request.Codigo, request.Nome, request.Cnpj, tipoFundo);
 
         if (fundoResult.IsFailure)
             return Result.Failure<string>(fundoResult.Error);

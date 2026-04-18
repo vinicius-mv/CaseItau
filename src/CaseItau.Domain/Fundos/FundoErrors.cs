@@ -19,15 +19,27 @@ public static class FundoErrors
             code: "Fundo.TipoFundoInvalido",
             description: $"O tipo de fundo {tipoFundo} é inválido");
 
+    public static readonly Error CodigoObrigatorio =
+    Error.Problem(
+        code: "Fundo.CodigoObrigatorio",
+        description: "O código do fundo é obrigatório.");
+
+    public static Error CodigoMaiorQuePermitido(string codigo) =>
+        Error.Problem(
+            code: "Fundo.CodigoMaiorQuePermitido",
+            description: $"O código {codigo} é maior que o permitido");
+
+    public static Error NomeMaiorQuePermitido(string nome) =>
+        Error.Problem(
+            code: "Fundo.NomeMaiorQuePermitido",
+            description: $"O nome {nome} é maior que o permitido");
+
     public static Error CnpjInvalido(string cnpj) =>
         Error.Problem(
             code: "Fundo.CnpjInvalido",
             description: $"O CNPJ {cnpj} é inválido");
 
-    public static readonly Error CodigoObrigatorio =
-        Error.Problem(
-            code: "Fundo.CodigoObrigatorio",
-            description: "O código do fundo é obrigatório.");
+
 
     public static readonly Error NomeObrigatorio =
         Error.Problem(

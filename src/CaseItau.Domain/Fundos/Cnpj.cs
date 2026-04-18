@@ -1,25 +1,33 @@
-﻿namespace CaseItau.Domain.Fundos;
+﻿using CaseItau.Domain.Abstractions;
+
+namespace CaseItau.Domain.Fundos;
 
 public record Cnpj
 {
+    public const int RequiredLength = 14;
+
     public string Value { get; }
 
-    public Cnpj(string value)
+    private Cnpj(string value)
     {
-        var digitos = ObterDigitos(value);
-
-        if (!EhValido(digitos))
-            throw new ApplicationException("CNPJ inválido.");
-
-        Value = digitos;
+        Value = value;
     }
 
     // rehydration
-    protected Cnpj()
-    {
-    }
+    protected Cnpj() { }
 
-    public bool EhValidoCnpj => EhValido(Value);
+    public static Result<Cnpj> Criar(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return Result.Failure<Cnpj>(FundoErrors.CnpjInvalido(value ?? string.Empty));
+
+        var digitos = ObterDigitos(value);
+
+        if (!EhValido(digitos))
+            return Result.Failure<Cnpj>(FundoErrors.CnpjInvalido(value));
+
+        return Result.Success(new Cnpj(digitos));
+    }
 
     /// <summary>
     /// Remove any non-digit characters (dots, slashes, dashes, spaces).
@@ -32,7 +40,7 @@ public record Cnpj
     /// </summary>
     private static bool EhValido(string digitos)
     {
-        if (digitos.Length != 14)
+        if (digitos.Length != RequiredLength)
             return false;
 
         // Reject sequences of identical digits (e.g. 00000000000000)
