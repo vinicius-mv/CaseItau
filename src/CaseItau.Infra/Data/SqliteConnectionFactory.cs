@@ -15,7 +15,7 @@ internal sealed class SqliteConnectionFactory : ISqlConnectionFactory
 
     public IDbConnection CreateConnection()
     {
-        var connection = new SQLiteConnection("Data Source=dbCaseItau.s3db");
+        var connection = new SQLiteConnection(_connectionString);
         connection.Open();
 
         return connection;
