@@ -1,6 +1,7 @@
 ﻿using CaseItau.Application.Fundos;
 using CaseItau.Application.Fundos.AdicionarFundo;
 using CaseItau.Application.Fundos.ListarFundos;
+using CaseItau.Application.Fundos.MovimentarPatrimonioFundo;
 using CaseItau.Application.Fundos.ObterFundo;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -80,14 +81,15 @@ namespace CaseItau.API.Controllers.Fundos
         }
 
         [HttpPut("{codigo}/patrimonio")]
-        public void MovimentarPatrimonio(string codigo, [FromBody] decimal value)
+        public async Task<ActionResult> MovimentarPatrimonio(string codigo, [FromBody] decimal value, CancellationToken cancellationToken)
         {
-            var con = new SQLiteConnection("Data Source=dbCaseItau.s3db");
-            con.Open();
-            var cmd = con.CreateCommand();
-            cmd.CommandText = "UPDATE FUNDO SET PATRIMONIO = IFNULL(PATRIMONIO,0) + " + value.ToString() + " WHERE CODIGO = '" + codigo + "'";
-            cmd.CommandType = System.Data.CommandType.Text;
-            var resultado = cmd.ExecuteNonQuery();
+            var command = new MovimentarPatrimonioFundoCommand(codigo, value);
+            var result = await _sender.Send(command);
+
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return NoContent();
         }
     }
 }

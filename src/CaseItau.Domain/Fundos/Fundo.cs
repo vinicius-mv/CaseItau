@@ -41,9 +41,11 @@ public sealed class Fundo : Entity
     // EF Rel
     public int CodigoTipo { get; private set; }
 
-    public void AtualizarPatrimonio(decimal patrimonio)
+    public void MovimentarPatrimonio(decimal? patrimonio)
     {
-        Patrimonio = patrimonio;
+        if (Patrimonio is null) 
+            Patrimonio = 0;
+        
+        Patrimonio += patrimonio;
     }
-
 }

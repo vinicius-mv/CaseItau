@@ -14,16 +14,21 @@ internal sealed class FundoRepository : IFundoRepository
 
     public async Task<Fundo?> ObterAsync(string codigo, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Fundos.FirstOrDefaultAsync(f => f.Codigo == codigo, cancellationToken);
+        return await _dbContext.Fundos.AsNoTracking().FirstOrDefaultAsync(f => f.Codigo == codigo, cancellationToken);
     }
 
     public async Task<TipoFundo?> ObterTipoFundoAsync(int codigoTipo, CancellationToken cancellationToken)
     {
-        return await _dbContext.TipoFundos.FirstOrDefaultAsync(f => f.CodigoTipo == codigoTipo, cancellationToken);
+        return await _dbContext.TipoFundos.AsNoTracking().FirstOrDefaultAsync(f => f.CodigoTipo == codigoTipo, cancellationToken);
     }
 
     public void Adicionar(Fundo fundo)
     {
         _dbContext.Add(fundo);
+    }
+
+    public void Atualizar(Fundo fundo)
+    {
+        _dbContext.Update(fundo);
     }
 }
