@@ -31,9 +31,12 @@ No projeto CaseItau.API foi disponibilizada uma API de Fundos com os metodos aba
 1. Faça o fork do projeto no seu github. Não realize commits na branch main e nem crie novas branchs.
 2. O código da api de fundos faz mal uso dos objetos, não segue boas práticas e não possui qualidade. Refatore o codigo utilizando as melhores bibliotecas, praticas, patterns e garanta a qualidade da aplicação. Fique a vontade para usar outros componentes e base de dados.
 3. Após a inclusão de um novo fundo via API, os metodos GET da API de Fundos estão retornando erro. Identifique e corrija o erro
-   R: database falha após o primeiro POST, pois ao inserir um fundo o patrimônio não é setado, seu valor inicial é nulo e ao ler o database, o método tentar parsear nulo como decimal causando um erro.
+   
+   Resposta:
+   
+   Os métodos da API falham porque o POST insere um fundo sem patrimônio. Assim ao tentar ler os dados desse fundo, o método decimal.parser falha, pois não espera receber um valor nulo, para corrigir, basta verificar se o patrimonio possui valor ao parsear.
 
-   Outro ponto as conexões de database não são corretamente gerenciadas, após a primeira operação de escrita, onde é obtido um lock no arquivo, este lock não é liberado, portanto as tentativas de escritas subsequentes são bloqueados, pois o arquivo não foi deslockado.
+   Outro ponto de atenção, as conexões de database não são corretamente gerenciadas, após a primeira operação de escrita, onde é obtido um lock no arquivo, este lock não é liberado, logo as tentativas de escritas subsequentes falharão, pois o arquivo do sqlite não foi desbloqueado corretamente após a operação.
 
 4. Crie uma aplicação web (Angular ou ASP NET MVC) que consuma todos os metodos da API de fundos
 
