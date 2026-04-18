@@ -2,12 +2,11 @@
 
 namespace CaseItau.Domain.Fundos;
 
-public sealed class Fundo : Entity
+public sealed class Fundo : Entity<string>
 {
-    public Fundo(Guid id, string codigo, string nome, string cnpj, TipoFundo tipoFundo) 
-        : base(id)
+    public Fundo(string codigo, string nome, Cnpj cnpj, TipoFundo tipoFundo) 
+        : base(codigo)
     {
-        Id = id;
         Codigo = codigo;
         Nome = nome;
         Cnpj = cnpj;
@@ -19,7 +18,7 @@ public sealed class Fundo : Entity
 
     public string Codigo { get; private set; }
     public string Nome { get; private set; }
-    public string Cnpj { get; private set; }
+    public Cnpj Cnpj { get; private set; }
     public TipoFundo TipoFundo { get; private set; }
     public decimal? Patrimonio { get; private set; }
 

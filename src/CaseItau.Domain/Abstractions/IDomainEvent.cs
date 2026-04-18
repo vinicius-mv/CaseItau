@@ -1,4 +1,6 @@
-﻿namespace CaseItau.Domain.Abstractions;
+﻿using MediatR;
+
+namespace CaseItau.Domain.Abstractions;
 
 public interface IDomainEvent : INotification
 {

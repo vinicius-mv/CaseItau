@@ -1,8 +1,8 @@
 ﻿namespace CaseItau.Domain.Abstractions
 {
-    public abstract class Entity : IEquatable<Entity>
+    public abstract class Entity<T> : IEquatable<Entity<T>>
     {
-        protected Entity(Guid id)
+        protected Entity(T id)
         {
             Id = id;
         }
@@ -12,13 +12,14 @@
         {
         }
 
-        public Guid Id { get; init; }
+        public T Id { get; init; }
 
-        public bool Equals(Entity? other)
+        public bool Equals(Entity<T>? other)
         {
+            if (ReferenceEquals(this, other)) return true;
             if (other is null) return false;
 
-            return Id == other.Id;
+            return Id?.Equals(other.Id) ?? false;
         }
 
         public override int GetHashCode()
