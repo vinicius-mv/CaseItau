@@ -31,4 +31,9 @@ internal sealed class FundoRepository : IFundoRepository
     {
         _dbContext.Update(fundo);
     }
+
+    public void Remover(Fundo fundo)
+    {
+        _dbContext.Remove(fundo);
+    }
 }

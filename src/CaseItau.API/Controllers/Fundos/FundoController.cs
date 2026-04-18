@@ -3,6 +3,7 @@ using CaseItau.Application.Fundos.AdicionarFundo;
 using CaseItau.Application.Fundos.ListarFundos;
 using CaseItau.Application.Fundos.MovimentarPatrimonioFundo;
 using CaseItau.Application.Fundos.ObterFundo;
+using CaseItau.Application.Fundos.RemoverFundo;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SQLite;
@@ -70,14 +71,15 @@ namespace CaseItau.API.Controllers.Fundos
 
         // DELETE: api/Fundo/ITAUTESTE01
         [HttpDelete("{codigo}")]
-        public void Delete(string codigo)
+        public async Task<ActionResult> Delete(string codigo)
         {
-            var con = new SQLiteConnection("Data Source=dbCaseItau.s3db");
-            con.Open();
-            var cmd = con.CreateCommand();
-            cmd.CommandText = "DELETE FROM FUNDO WHERE CODIGO = '" + codigo + "'";
-            cmd.CommandType = System.Data.CommandType.Text;
-            var resultado = cmd.ExecuteNonQuery();
+            var command = new RemoverFundoCommand(codigo);
+            var result = await _sender.Send(command);
+
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return NoContent();
         }
 
         [HttpPut("{codigo}/patrimonio")]

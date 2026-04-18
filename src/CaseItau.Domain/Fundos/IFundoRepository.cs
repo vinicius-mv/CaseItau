@@ -6,4 +6,5 @@ public interface IFundoRepository
     Task<TipoFundo?> ObterTipoFundoAsync(int codigoTipo, CancellationToken cancellationToken);
     void Adicionar(Fundo fundo);
     void Atualizar(Fundo fundo);
+    void Remover(Fundo fundo);
 }
