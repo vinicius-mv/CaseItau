@@ -18,14 +18,14 @@ internal sealed class ObterFundoQueryHandler : IQueryHandler<ObterFundoQuery, Fu
     {
         using var connection = _sqlConnectionFactory.CreateConnection();
 
-        const string sql = """
+        const string sql = $"""
             SELECT 
-                f.CODIGO AS Codigo, 
-                f.NOME AS Nome, 
-                f.CNPJ AS Cnpj, 
-                f.PATRIMONIO AS Patrimonio, 
-                tf.CODIGO AS CodigoTipo, 
-                tf.NOME AS NomeTipo
+                f.CODIGO AS {nameof(FundoResponse.Codigo)}, 
+                f.NOME AS {nameof(FundoResponse.Nome)}, 
+                f.CNPJ AS {nameof(FundoResponse.Cnpj)}, 
+                f.PATRIMONIO AS {nameof(FundoResponse.Patrimonio)}, 
+                tf.CODIGO AS {nameof(FundoResponse.CodigoTipo)}, 
+                tf.NOME AS {nameof(FundoResponse.NomeTipo)}
             FROM FUNDO f
             JOIN TIPO_FUNDO tf ON tf.CODIGO = f.CODIGO_TIPO
             WHERE f.CODIGO = @Codigo;
