@@ -1,4 +1,5 @@
 ﻿using CaseItau.Application.Fundos;
+using CaseItau.Application.Fundos.ListarFundos;
 using CaseItau.Application.Fundos.ObterFundo;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,31 +20,12 @@ namespace CaseItau.API.Controllers.Fundos
 
         // GET: api/Fundo
         [HttpGet]
-        public IEnumerable<FundoResponse> Get()
+        public async Task<ActionResult<IReadOnlyList<FundoResponse>>> Get()
         {
-            var lista = new List<FundoResponse>();
-            var con = new SQLiteConnection("Data Source=dbCaseItau.s3db");
-            con.Open();
-            var cmd = con.CreateCommand();
-            cmd.CommandText = "SELECT F.*, T.NOME AS NOME_TIPO FROM FUNDO F INNER JOIN TIPO_FUNDO T ON T.CODIGO = F.CODIGO_TIPO";
-            cmd.CommandType = System.Data.CommandType.Text;
-            var reader = cmd.ExecuteReader();
-            while(reader.Read())
-            {
-                var f = new FundoResponse();
-                f.Codigo = reader[0].ToString();
-                f.Nome = reader[1].ToString();
-                f.Cnpj = reader[2].ToString();
-                f.CodigoTipo = int.Parse(reader[3].ToString());
-                var patrimonioRaw = reader[4].ToString();
-                if (decimal.TryParse(patrimonioRaw, out decimal patrimonio))
-                {
-                    f.Patrimonio = patrimonio;
-                }
-                f.NomeTipo = reader[5].ToString();                
-                lista.Add(f);
-            }
-            return lista;
+            var query = new ListarFundosQuery();
+            var result = await _sender.Send(query);
+
+            return Ok(result.Value);
         }
 
         // GET: api/Fundo/ITAUTESTE01
@@ -51,7 +33,6 @@ namespace CaseItau.API.Controllers.Fundos
         public async Task<ActionResult<FundoResponse>> Get(string codigo, CancellationToken cancellationToken)
         {
             var query = new ObterFundoQuery(codigo);
-
             var result = await _sender.Send(query, cancellationToken);
 
             return result.IsSuccess ? Ok(result.Value) : NotFound();
