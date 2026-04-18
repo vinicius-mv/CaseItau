@@ -1,23 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CaseItau.API.Model;
-using Microsoft.AspNetCore.Http;
+﻿using CaseItau.Application.Fundos;
+using CaseItau.Application.Fundos.ObterFundo;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SQLite;
 
-namespace CaseItau.API.Controllers
+namespace CaseItau.API.Controllers.Fundos
 {
     [Route("api/[controller]")]
     [ApiController]
     public class FundoController : ControllerBase
     {
+        private readonly ISender _sender;
+
+        public FundoController(ISender sender)
+        {
+            _sender = sender;
+        }
+
         // GET: api/Fundo
         [HttpGet]
-        public IEnumerable<Fundo> Get()
+        public IEnumerable<FundoResponse> Get()
         {
-            var lista = new List<Fundo>();
+            var lista = new List<FundoResponse>();
             var con = new SQLiteConnection("Data Source=dbCaseItau.s3db");
             con.Open();
             var cmd = con.CreateCommand();
@@ -26,7 +30,7 @@ namespace CaseItau.API.Controllers
             var reader = cmd.ExecuteReader();
             while(reader.Read())
             {
-                var f = new Fundo();
+                var f = new FundoResponse();
                 f.Codigo = reader[0].ToString();
                 f.Nome = reader[1].ToString();
                 f.Cnpj = reader[2].ToString();
@@ -44,36 +48,18 @@ namespace CaseItau.API.Controllers
 
         // GET: api/Fundo/ITAUTESTE01
         [HttpGet("{codigo}", Name = "Get")]
-        public Fundo Get(string codigo)
+        public async Task<ActionResult<FundoResponse>> Get(string codigo, CancellationToken cancellationToken)
         {
-            var con = new SQLiteConnection("Data Source=dbCaseItau.s3db");
-            con.Open();
-            var cmd = con.CreateCommand();
-            cmd.CommandText = "SELECT F.*, T.NOME AS NOME_TIPO FROM FUNDO F INNER JOIN TIPO_FUNDO T ON T.CODIGO = F.CODIGO_TIPO WHERE F.CODIGO = '" + codigo + "'";
-            cmd.CommandType = System.Data.CommandType.Text;
-            var reader = cmd.ExecuteReader();
-            if (reader.Read())
-            {
-                var f = new Fundo();
-                f.Codigo = reader[0].ToString();
-                f.Nome = reader[1].ToString();
-                f.Cnpj = reader[2].ToString();
-                f.CodigoTipo = int.Parse(reader[3].ToString());
-                var patrimonioRaw = reader[4].ToString();
-                if (decimal.TryParse(patrimonioRaw, out decimal patrimonio))
-                {
-                    f.Patrimonio = patrimonio;
-                }
-                f.Patrimonio = patrimonio;
-                f.NomeTipo = reader[5].ToString();
-                return f;
-            }
-            return null;
+            var query = new ObterFundoQuery(codigo);
+
+            var result = await _sender.Send(query, cancellationToken);
+
+            return result.IsSuccess ? Ok(result.Value) : NotFound();
         }
 
         // POST: api/Fundo
         [HttpPost]
-        public void Post([FromBody] Fundo value)
+        public void Post([FromBody] FundoResponse value)
         {
             var con = new SQLiteConnection("Data Source=dbCaseItau.s3db");
             con.Open();
@@ -85,7 +71,7 @@ namespace CaseItau.API.Controllers
 
         // PUT: api/Fundo/ITAUTESTE01
         [HttpPut("{codigo}")]
-        public void Put(string codigo, [FromBody] Fundo value)
+        public void Put(string codigo, [FromBody] FundoResponse value)
         {
             var con = new SQLiteConnection("Data Source=dbCaseItau.s3db");
             con.Open();
