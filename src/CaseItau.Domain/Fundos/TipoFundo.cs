@@ -2,13 +2,12 @@
 
 namespace CaseItau.Domain.Fundos
 {
-    public class TipoFundo : Entity<int>
+    public class TipoFundo : Entity
     {
         public int CodigoTipo { get; private set; }
         public string NomeTipo { get; private set; }
 
-        public TipoFundo(int codigoTipo, string nomeTipo) 
-            : base(codigoTipo)
+        public TipoFundo(int codigoTipo, string nomeTipo)
         {
             CodigoTipo = codigoTipo;
             NomeTipo = nomeTipo;

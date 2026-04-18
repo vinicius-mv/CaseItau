@@ -6,56 +6,57 @@ public record Cnpj
 
     public Cnpj(string value)
     {
-        var digits = Strip(value);
+        var digitos = ObterDigitos(value);
 
-        if (!IsValid(digits))
+        if (!EhValido(digitos))
             throw new ApplicationException("CNPJ inválido.");
 
-        Value = digits;
+        Value = digitos;
     }
 
     // rehydration
-    protected Cnpj(string value, bool skipValidation)
+    protected Cnpj()
     {
-        Value = Strip(value);
     }
+
+    public bool EhValidoCnpj => EhValido(Value);
 
     /// <summary>
     /// Remove any non-digit characters (dots, slashes, dashes, spaces).
     /// </summary>
-    private static string Strip(string value) =>
+    private static string ObterDigitos(string value) =>
         new string(value.Where(char.IsDigit).ToArray());
 
     /// <summary>
     /// Validates CNPJ using the standard two-digit verification algorithm.
     /// </summary>
-    private static bool IsValid(string digits)
+    private static bool EhValido(string digitos)
     {
-        if (digits.Length != 14)
+        if (digitos.Length != 14)
             return false;
 
         // Reject sequences of identical digits (e.g. 00000000000000)
-        if (digits.Distinct().Count() == 1)
+        if (digitos.Distinct().Count() == 1)
             return false;
 
-        return CheckDigit(digits, 12) && CheckDigit(digits, 13);
+        return ChecarDigito(digitos, 12) && ChecarDigito(digitos, 13);
     }
 
-    private static bool CheckDigit(string digits, int position)
+    private static bool ChecarDigito(string digitos, int posicao)
     {
-        int[] weights = position == 12
+        int[] pesos = posicao == 12
             ? new[] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 }
             : new[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
 
-        int sum = digits
-            .Take(position)
-            .Select((c, i) => (c - '0') * weights[i])
+        int soma = digitos
+            .Take(posicao)
+            .Select((c, i) => (c - '0') * pesos[i])
             .Sum();
 
-        int remainder = sum % 11;
-        int expected = remainder < 2 ? 0 : 11 - remainder;
+        int resto = soma % 11;
+        int esperado = resto < 2 ? 0 : 11 - resto;
 
-        return (digits[position] - '0') == expected;
+        return (digitos[posicao] - '0') == esperado;
     }
 
     public override string ToString() => Value;
