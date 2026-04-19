@@ -7,7 +7,6 @@ using CaseItau.Application.Fundos.ObterFundo;
 using CaseItau.Application.Fundos.RemoverFundo;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SQLite;
 
 namespace CaseItau.API.Controllers.Fundos
 {
