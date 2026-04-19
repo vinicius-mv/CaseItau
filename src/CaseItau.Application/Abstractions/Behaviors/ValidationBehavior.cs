@@ -1,6 +1,7 @@
 ﻿using CaseItau.Application.Abstractions.Messaging;
 using CaseItau.Application.Exceptions;
 using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 
 namespace CaseItau.Application.Abstractions.Behaviors;
@@ -8,34 +9,45 @@ namespace CaseItau.Application.Abstractions.Behaviors;
 public class ValidationBehavior<TRequest, TResponse> 
     : IPipelineBehavior<TRequest, TResponse> where TRequest : IBaseCommand
 {
-    private readonly IEnumerable<IValidator<TRequest>> _validators;
+    private readonly IReadOnlyCollection<IValidator<TRequest>> _validators;
 
     public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
     {
-        _validators = validators;
+        _validators = validators.ToList();
     }
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        if (!_validators.Any())
-            return await next();
+        var validationFailures = await ValidateAsync(request);
+
+        if (validationFailures.Length != 0)
+        {
+            var validationErrors = CreateValidationError(validationFailures);
+            throw new Exceptions.ValidationException(validationErrors);
+        }
+        return await next();
+    }
+
+    private async Task<ValidationFailure[]> ValidateAsync(TRequest request)
+    {
+        if (_validators.Count == 0) 
+            return Array.Empty<ValidationFailure>();
 
         var context = new ValidationContext<TRequest>(request);
 
-        var validationErrors = _validators
-            .Select(validator => validator.Validate(context))
-            .Where(validationResult => validationResult.Errors.Any())
-            .SelectMany(validationResult => validationResult.Errors)
-            .Select(validationFailure => new ValidationError(
-                validationFailure.PropertyName,
-                validationFailure.ErrorMessage))
-            .ToList();
+        var validationResultTasks = _validators.Select(validator => validator.ValidateAsync(context));
+        var validationResults = await Task.WhenAll(validationResultTasks);
 
-        if (validationErrors.Any())
+        var validationFailures = validationResults.Where(vr => !vr.IsValid).SelectMany(vr => vr.Errors);
+
+        return validationFailures.ToArray();
+    }
+
+    private static IEnumerable<ValidationError> CreateValidationError(IEnumerable<ValidationFailure> validationFailures)
+    {
+        foreach (var validationFailure in validationFailures)
         {
-            throw new Exceptions.ValidationException(validationErrors!);
+            yield return new ValidationError(validationFailure.PropertyName, validationFailure.ErrorMessage);
         }
-
-        return await next();
     }
 }
