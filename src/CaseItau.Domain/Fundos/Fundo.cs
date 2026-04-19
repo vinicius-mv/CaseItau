@@ -1,4 +1,5 @@
 ﻿using CaseItau.Domain.Abstractions;
+using CaseItau.Domain.Fundos.Events;
 
 namespace CaseItau.Domain.Fundos;
 
@@ -36,6 +37,12 @@ public sealed class Fundo : AggregateRoot<string>
 
         var fundo = new Fundo(codigo, nomeResult.Value, cnpjResult.Value, tipoFundo);
 
+        fundo.RaiseDomainEvent(new FundoCriadoDomainEvent(
+            fundo.Codigo,
+            fundo.Nome.Value,
+            fundo.Cnpj.Value,
+            fundo.CodigoTipo));
+
         return Result.Success(fundo);
     }
 
@@ -54,6 +61,12 @@ public sealed class Fundo : AggregateRoot<string>
         TipoFundo = tipoFundo;
         CodigoTipo = tipoFundo.CodigoTipo;
 
+        RaiseDomainEvent(new FundoAtualizadoDomainEvent(
+            Codigo,
+            Nome.Value,
+            Cnpj.Value,
+            CodigoTipo));
+
         return Result.Success();
     }
 
@@ -68,11 +81,16 @@ public sealed class Fundo : AggregateRoot<string>
     // EF Rel
     public int CodigoTipo { get; private set; }
 
-    public void MovimentarPatrimonio(decimal patrimonio)
+    public void MovimentarPatrimonio(decimal valorMovimentacao)
     {
         if (Patrimonio is null) 
             Patrimonio = 0;
         
-        Patrimonio += patrimonio;
+        Patrimonio += valorMovimentacao;
+
+        RaiseDomainEvent(new PatrimonioMovimentadoDomainEvent(
+            Codigo,
+            valorMovimentacao,
+            Patrimonio.Value));
     }
 }
