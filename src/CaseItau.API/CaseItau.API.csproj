@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CaseItau.Application\CaseItau.Application.csproj" />
     <ProjectReference Include="..\CaseItau.Infra\CaseItau.Infra.csproj" />
   </ItemGroup>
