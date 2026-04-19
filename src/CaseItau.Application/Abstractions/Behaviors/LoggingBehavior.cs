@@ -1,4 +1,5 @@
-﻿using CaseItau.Domain.Abstractions;
+﻿using CaseItau.Application.Abstractions.Messaging;
+using CaseItau.Domain.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -7,7 +8,7 @@ namespace CaseItau.Application.Abstractions.Behaviors;
 
 public sealed class LoggingBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IBaseRequest  // IBaseRequest is a market interface to ensure that only commands are processed by this behavior
+    where TRequest : IBaseCommand  // IBaseCommand is a market interface to ensure that only commands are processed by this behavior
     where TResponse : Result
 {
     private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
@@ -23,11 +24,11 @@ public sealed class LoggingBehavior<TRequest, TResponse>
 
         try
         {
-            _logger.LogInformation("Executing commnad {Command}", commandName);
+            _logger.LogInformation("Executing command {Command}", commandName);
 
             var result = await next();
 
-            _logger.LogInformation("Commnad {Command} processed succesfully", commandName);
+            _logger.LogInformation("Command {Command} processed succesfully", commandName);
 
             return result;
         }
