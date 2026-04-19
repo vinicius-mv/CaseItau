@@ -33,7 +33,7 @@ public sealed class ValidationBehavior<TRequest, TResponse>
                 validationFailure.ErrorMessage))
             .ToList();
 
-        if (validationErrors.Any())
+        if (validationErrors.Count != 0)
         {
             throw new Exceptions.ValidationException(validationErrors);
         }
