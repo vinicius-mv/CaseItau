@@ -19,21 +19,21 @@ namespace CaseItau.Infra.Configurations
                 .IsRequired();
 
             // VO setup - FundoNome mapped to column NOME
-            builder.OwnsOne(fundo => fundo.Nome, nome =>
+            builder.OwnsOne(fundo => fundo.Nome, nomeBuilder =>
             {
-                nome.Property(n => n.Value).HasColumnName("NOME")
+                nomeBuilder.Property(n => n.Value).HasColumnName("NOME")
                     .HasMaxLength(FundoNome.MaxLength)
                     .IsRequired();
             });
 
             // VO setup - Cnpj mapped to column CNPJ
-            builder.OwnsOne(fundo => fundo.Cnpj, cnpj =>
+            builder.OwnsOne(fundo => fundo.Cnpj, cnpjBuilder =>
             {
-                cnpj.Property(c => c.Value).HasColumnName("CNPJ")
+                cnpjBuilder.Property(c => c.Value).HasColumnName("CNPJ")
                     .HasMaxLength(Cnpj.RequiredLength)
                     .IsRequired();
 
-                cnpj.HasIndex(c => c.Value).IsUnique();
+                cnpjBuilder.HasIndex(c => c.Value).IsUnique();
             });
 
             builder.Property(fundo => fundo.Patrimonio).HasColumnName("PATRIMONIO")
