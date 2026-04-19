@@ -32,6 +32,8 @@ namespace CaseItau.Infra.Configurations
                 cnpj.Property(c => c.Value).HasColumnName("CNPJ")
                     .HasMaxLength(Cnpj.RequiredLength)
                     .IsRequired();
+
+                cnpj.HasIndex(c => c.Value).IsUnique();
             });
 
             builder.Property(fundo => fundo.Patrimonio).HasColumnName("PATRIMONIO")
