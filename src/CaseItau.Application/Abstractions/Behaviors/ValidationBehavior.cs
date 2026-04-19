@@ -6,7 +6,7 @@ using MediatR;
 
 namespace CaseItau.Application.Abstractions.Behaviors;
 
-public class ValidationBehavior<TRequest, TResponse>
+public sealed class ValidationBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IBaseCommand
 {
