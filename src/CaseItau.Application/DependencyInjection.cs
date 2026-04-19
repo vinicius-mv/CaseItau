@@ -1,5 +1,4 @@
 ﻿using CaseItau.Application.Abstractions.Behaviors;
-using CaseItau.Application.Fundos.AdicionarFundo;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +12,7 @@ public static class DependencyInjection
         {
             cfg.RegisterServicesFromAssembly(typeof(Application.DependencyInjection).Assembly);
 
+            cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
             cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
 
