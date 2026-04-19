@@ -10,9 +10,10 @@ namespace CaseItau.Infra.Configurations
         {
             builder.ToTable("FUNDO");
 
-            builder.HasKey(f => f.Codigo);
+            builder.HasKey(fundo => fundo.Codigo);
+            builder.Ignore(fundo => fundo.Id); // Ignore the property Id, since CodigoTipo is the primary key
 
-            builder.Property(f => f.Codigo)
+            builder.Property(fundo => fundo.Codigo)
                 .HasColumnName("CODIGO")
                 .HasMaxLength(Fundo.CodigoMaxLength)
                 .IsRequired();

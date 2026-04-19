@@ -11,6 +11,7 @@ public class TipoFundoConfiguration : IEntityTypeConfiguration<TipoFundo>
         builder.ToTable("TIPO_FUNDO");
 
         builder.HasKey(tipoFundo => tipoFundo.CodigoTipo);
+        builder.Ignore(tipoFundo => tipoFundo.Id); // Ignore the property Id, since CodigoTipo is the primary key
 
         builder.Property(tipoFundo => tipoFundo.CodigoTipo).HasColumnName("CODIGO")
             .IsRequired();
