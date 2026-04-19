@@ -1,6 +1,6 @@
 ﻿namespace CaseItau.Domain.Abstractions;
 
-public abstract class AggregateRoot<TId> : Entity<TId>
+public abstract class AggregateRoot<TId> : Entity<TId>, IHasDomainEvents
 {
     private readonly List<IDomainEvent> _domainEvents = new();
 
