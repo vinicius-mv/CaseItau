@@ -2,8 +2,10 @@
 
 namespace CaseItau.Domain.Fundos
 {
-    public class TipoFundo : Entity
+    public class TipoFundo : Entity<int>
     {
+        public override int Id => CodigoTipo;
+
         public int CodigoTipo { get; private set; }
         public string NomeTipo { get; private set; }
 

@@ -2,8 +2,10 @@
 
 namespace CaseItau.Domain.Fundos;
 
-public sealed class Fundo : Entity
+public sealed class Fundo : AggregateRoot<string>
 {
+    public override string Id => Codigo;
+
     private Fundo(string codigo, FundoNome nome, Cnpj cnpj, TipoFundo tipoFundo)
     {
         Codigo = codigo;
