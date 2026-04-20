@@ -3,6 +3,9 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+# ignore files inside .container which holds persistent docker volumes data
+.containers/
+
 # dotenv files
 .env
 

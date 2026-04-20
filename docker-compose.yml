@@ -1,0 +1,7 @@
+services:
+  caseitau.api:
+    image: ${DOCKER_REGISTRY-}caseitauapi
+    container_name: CaseItau.Api
+    build:
+      context: .
+      dockerfile: src/CaseItau.API/Dockerfile
