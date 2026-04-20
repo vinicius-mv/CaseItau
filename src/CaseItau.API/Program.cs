@@ -3,9 +3,13 @@ using CaseItau.API.Middlewares;
 using CaseItau.Application;
 using CaseItau.Infra;
 using CaseItau.Infra.Data.Seed;
+using Serilog;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((hostingContext, configuration) =>
+    configuration.ReadFrom.Configuration(hostingContext.Configuration));
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
