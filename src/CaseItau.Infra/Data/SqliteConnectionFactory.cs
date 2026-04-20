@@ -1,6 +1,6 @@
 ﻿using CaseItau.Application.Abstractions.Data;
+using Npgsql;
 using System.Data;
-using System.Data.SQLite;
 
 namespace CaseItau.Infra.Data;
 
@@ -15,7 +15,7 @@ internal sealed class SqliteConnectionFactory : ISqlConnectionFactory
 
     public IDbConnection CreateConnection()
     {
-        var connection = new SQLiteConnection(_connectionString);
+        var connection = new NpgsqlConnection(_connectionString);
         connection.Open();
 
         return connection;
