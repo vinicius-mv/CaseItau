@@ -21,7 +21,7 @@ public class FundoNome
         if (string.IsNullOrWhiteSpace(value))
             return Result.Failure<FundoNome>(FundoErrors.NomeObrigatorio);
 
-        value = value.Trim();
+        value = value.ToUpper().Trim();
 
         if (value.Length > MaxLength)
             return Result.Failure<FundoNome>(FundoErrors.NomeMaiorQuePermitido(value));

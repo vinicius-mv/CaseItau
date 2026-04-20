@@ -24,6 +24,8 @@ public sealed class Fundo : AggregateRoot<string>
         if (string.IsNullOrEmpty(codigo))
             return Result.Failure<Fundo>(FundoErrors.CodigoObrigatorio);
 
+        codigo = codigo.Trim().ToUpper();
+
         if (codigo.Length > CodigoMaxLength)
             return Result.Failure<Fundo>(FundoErrors.CodigoMaiorQuePermitido(codigo));
 
