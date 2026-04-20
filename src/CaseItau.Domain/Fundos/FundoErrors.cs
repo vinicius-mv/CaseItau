@@ -9,10 +9,15 @@ public static class FundoErrors
             code: "Fundo.NaoEncontrado",
             description: $"O fundo com código {fundoCodigo} não foi encontrado");
 
-    public static Error JaExiste(string fundoCodigo) =>
+    public static Error CondigoIndisponivel(string fundoCodigo) =>
         Error.Conflict(
-            code: "Fundo.JaExiste",
-            description: $"O fundo com código {fundoCodigo} já foi registrado");
+            code: "Fundo.CodigoInvalido",
+            description: $"Fundo com código {fundoCodigo} já foi registrado");
+
+    public static Error CnpjIndisponivel(string cnpj) =>
+        Error.Conflict(
+            code: "Fundo.CnpjInvalido",
+            description: $"Fundo com CNPJ {cnpj} já foi registrado");
 
     public static Error TipoFundoInvalido(int tipoFundo) =>
         Error.Validation(

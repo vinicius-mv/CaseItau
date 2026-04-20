@@ -17,6 +17,11 @@ internal sealed class FundoRepository : IFundoRepository
         return await _dbContext.Fundos.FirstOrDefaultAsync(f => f.Codigo == codigo, cancellationToken);
     }
 
+    public async Task<Fundo?> ObterPorCnpjAsync(string cnpj, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Fundos.FirstOrDefaultAsync(f => f.Cnpj.Value == cnpj, cancellationToken);
+    }
+
     public async Task<TipoFundo?> ObterTipoFundoAsync(int codigoTipo, CancellationToken cancellationToken)
     {
         return await _dbContext.TipoFundos.FirstOrDefaultAsync(f => f.CodigoTipo == codigoTipo, cancellationToken);
