@@ -5,3 +5,15 @@ services:
     build:
       context: .
       dockerfile: src/CaseItau.API/Dockerfile
+
+  caseitau.db:
+    image: postgres:16-alpine
+    container_name: CaseItau.Db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: caseitau
+    volumes: 
+      - ./.containers/db/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432 
