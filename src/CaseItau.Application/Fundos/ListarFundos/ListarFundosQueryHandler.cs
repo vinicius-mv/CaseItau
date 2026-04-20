@@ -20,17 +20,15 @@ internal sealed class ListarFundosQueryHandler : IQueryHandler<ListarFundosQuery
 
         const string sql = $"""
             SELECT 
-                f.CODIGO AS {nameof(FundoResponse.Codigo)}, 
-                f.NOME AS {nameof(FundoResponse.Nome)}, 
-                f.CNPJ AS {nameof(FundoResponse.Cnpj)}, 
-                f.PATRIMONIO AS {nameof(FundoResponse.Patrimonio)}, 
-                tf.CODIGO AS {nameof(FundoResponse.CodigoTipo)}, 
-                tf.NOME AS {nameof(FundoResponse.NomeTipo)}
-            FROM FUNDO f
-            JOIN TIPO_FUNDO tf ON tf.CODIGO = f.CODIGO_TIPO;
+                f."CODIGO" AS {nameof(FundoResponse.Codigo)}, 
+                f."NOME" AS {nameof(FundoResponse.Nome)}, 
+                f."CNPJ" AS {nameof(FundoResponse.Cnpj)}, 
+                f."PATRIMONIO" AS {nameof(FundoResponse.Patrimonio)}, 
+                tf."CODIGO" AS {nameof(FundoResponse.CodigoTipo)}, 
+                tf."NOME" AS {nameof(FundoResponse.NomeTipo)}
+            FROM "FUNDO" f
+            JOIN "TIPO_FUNDO" tf ON tf."CODIGO" = f."CODIGO_TIPO";
         """;
-
-        var fundsResponse = Enumerable.Empty<FundoResponse>();
 
         var fundos = await connection.QueryAsync<FundoResponse>(sql);
 
