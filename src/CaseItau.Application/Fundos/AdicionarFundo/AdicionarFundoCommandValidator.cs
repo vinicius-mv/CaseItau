@@ -10,8 +10,8 @@ public class AdicionarFundoCommandValidator : AbstractValidator<AdicionarFundoCo
         RuleFor(x => x.Codigo)
             .NotEmpty()
             .WithMessage("Código é obrigatório.")
-            .MaximumLength(Fundo.CodigoMaxLength)
-            .WithMessage($"Código não pode ter mais de {Fundo.CodigoMaxLength} caracteres.");
+            .MaximumLength(FundoCodigo.MaxLength)
+            .WithMessage($"Código não pode ter mais de {FundoCodigo.MaxLength} caracteres.");
 
         RuleFor(x => x.Nome)
             .NotEmpty()

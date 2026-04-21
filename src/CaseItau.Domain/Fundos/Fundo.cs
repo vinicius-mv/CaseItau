@@ -5,9 +5,9 @@ namespace CaseItau.Domain.Fundos;
 
 public sealed class Fundo : AggregateRoot<string>
 {
-    public override string Id => Codigo;
+    public override string Id => Codigo.Value;
 
-    private Fundo(string codigo, FundoNome nome, Cnpj cnpj, TipoFundo tipoFundo)
+    private Fundo(FundoCodigo codigo, FundoNome nome, Cnpj cnpj, TipoFundo tipoFundo)
     {
         Codigo = codigo;
         Nome = nome;
@@ -21,13 +21,9 @@ public sealed class Fundo : AggregateRoot<string>
 
     public static Result<Fundo> Criar(string codigo, string nome, string cnpj, TipoFundo tipoFundo)
     {
-        if (string.IsNullOrEmpty(codigo))
-            return Result.Failure<Fundo>(FundoErrors.CodigoObrigatorio);
-
-        codigo = codigo.Trim().ToUpper();
-
-        if (codigo.Length > CodigoMaxLength)
-            return Result.Failure<Fundo>(FundoErrors.CodigoMaiorQuePermitido(codigo));
+        var codigoResult = FundoCodigo.Criar(codigo);
+        if (codigoResult.IsFailure)
+            return Result.Failure<Fundo>(codigoResult.Error);
 
         var nomeResult = FundoNome.Criar(nome);
         if (nomeResult.IsFailure)
@@ -37,10 +33,10 @@ public sealed class Fundo : AggregateRoot<string>
         if (cnpjResult.IsFailure)
             return Result.Failure<Fundo>(cnpjResult.Error);
 
-        var fundo = new Fundo(codigo, nomeResult.Value, cnpjResult.Value, tipoFundo);
+        var fundo = new Fundo(codigoResult.Value, nomeResult.Value, cnpjResult.Value, tipoFundo);
 
         fundo.RaiseDomainEvent(new FundoCriadoDomainEvent(
-            fundo.Codigo,
+            fundo.Codigo.Value,
             fundo.Nome.Value,
             fundo.Cnpj.Value,
             fundo.CodigoTipo));
@@ -64,7 +60,7 @@ public sealed class Fundo : AggregateRoot<string>
         CodigoTipo = tipoFundo.CodigoTipo;
 
         RaiseDomainEvent(new FundoAtualizadoDomainEvent(
-            Codigo,
+            Codigo.Value,
             Nome.Value,
             Cnpj.Value,
             CodigoTipo));
@@ -72,8 +68,7 @@ public sealed class Fundo : AggregateRoot<string>
         return Result.Success();
     }
 
-    public string Codigo { get; private set; }
-    public const int CodigoMaxLength = 20;
+    public FundoCodigo Codigo { get; private set; }
 
     public FundoNome Nome { get; private set; }
     public Cnpj Cnpj { get; private set; }
@@ -85,13 +80,13 @@ public sealed class Fundo : AggregateRoot<string>
 
     public void MovimentarPatrimonio(decimal valorMovimentacao)
     {
-        if (Patrimonio is null) 
+        if (Patrimonio is null)
             Patrimonio = 0;
-        
+
         Patrimonio += valorMovimentacao;
 
         RaiseDomainEvent(new PatrimonioMovimentadoDomainEvent(
-            Codigo,
+            Codigo.Value,
             valorMovimentacao,
             Patrimonio.Value));
     }

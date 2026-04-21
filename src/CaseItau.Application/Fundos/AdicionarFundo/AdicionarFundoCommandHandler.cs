@@ -43,6 +43,6 @@ public class AdicionarFundoCommandHandler : ICommandHandler<AdicionarFundoComman
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success<string>(fundoResult.Value.Codigo);
+        return Result.Success<string>(fundoResult.Value.Codigo.Value);
     }
 }

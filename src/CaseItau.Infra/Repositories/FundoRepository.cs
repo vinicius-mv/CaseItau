@@ -14,7 +14,8 @@ internal sealed class FundoRepository : IFundoRepository
 
     public async Task<Fundo?> ObterAsync(string codigo, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Fundos.FirstOrDefaultAsync(f => f.Codigo == codigo, cancellationToken);
+        var codigoVO = FundoCodigo.Criar(codigo).Value;
+        return await _dbContext.Fundos.FirstOrDefaultAsync(f => f.Codigo == codigoVO, cancellationToken);
     }
 
     public async Task<Fundo?> ObterPorCnpjAsync(string cnpj, CancellationToken cancellationToken = default)
