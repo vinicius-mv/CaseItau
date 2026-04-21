@@ -1,5 +1,4 @@
 ﻿using CaseItau.Application.Abstractions.Messaging;
-using CaseItau.Domain.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -9,7 +8,6 @@ namespace CaseItau.Application.Abstractions.Behaviors;
 public sealed class LoggingBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IBaseCommand  // IBaseCommand is a market interface to ensure that only commands are processed by this behavior
-    where TResponse : Result
 {
     private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
 
