@@ -35,6 +35,7 @@ app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
+app.UseMiddleware<RequestContextLoggingMiddleware>();
 app.UseSerilogRequestLogging();
 
 app.UseAuthorization();
