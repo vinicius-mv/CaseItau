@@ -1,6 +1,8 @@
 ﻿using CaseItau.Application.Abstractions.Messaging;
+using CaseItau.Domain.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Serilog.Context;
 
 namespace CaseItau.Application.Abstractions.Behaviors;
 
@@ -8,6 +10,7 @@ namespace CaseItau.Application.Abstractions.Behaviors;
 public sealed class LoggingBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IBaseCommand  // IBaseCommand is a market interface to ensure that only commands are processed by this behavior
+    where TResponse : Result
 {
     private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
 
@@ -26,7 +29,17 @@ public sealed class LoggingBehavior<TRequest, TResponse>
 
             var result = await next();
 
-            _logger.LogInformation("Command {Command} processed succesfully", commandName);
+            if (result.IsSuccess)
+            {
+                _logger.LogInformation("Command {Command} processed succesfully", commandName);
+            }
+            else
+            {
+                using (LogContext.PushProperty("ResultError", result.Error, destructureObjects: true))
+                {
+                    _logger.LogInformation("Command {Command} processed with errors", commandName);
+                }
+            }
 
             return result;
         }
