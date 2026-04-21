@@ -36,4 +36,7 @@ public record Error
 
     public static Error Conflict(string code, string description) =>
         new(code, description, ErrorType.Conflict);
+
+    public static Error Warning(string code, string description) =>
+        new(code, description, ErrorType.Warning);
 }

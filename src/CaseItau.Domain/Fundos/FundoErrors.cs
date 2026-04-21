@@ -48,4 +48,9 @@ public static class FundoErrors
         Error.Validation(
             code: "Fundo.NomeObrigatorio",
             description: "O nome do fundo é obrigatório.");
+
+    public static Error SaqueDeAltoRisco(decimal saque, decimal percentual, decimal patrimonioAnterior) =>
+        Error.Warning(
+            code: "Fundo.SaqueDeAltoRisco",
+            description: $"Saque de {saque} representa mais de {percentual:P0} do patrimônio anterior ({patrimonioAnterior}).");
 }

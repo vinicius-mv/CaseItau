@@ -1,8 +1,10 @@
 ﻿using CaseItau.Application.Abstractions.Data;
+using CaseItau.Application.Abstractions.Notifications;
 using CaseItau.Application.Fundos;
 using CaseItau.Domain.Abstractions;
 using CaseItau.Domain.Fundos;
 using CaseItau.Infra.Data;
+using CaseItau.Infra.Notifications;
 using CaseItau.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +31,7 @@ public static class DependencyInjection
         // Services
         services.AddScoped<IFundoRepository, FundoRepository>();
         services.AddScoped<IFundoReadRepository, FundoReadRepository>();
+        services.AddScoped<INotificationService, FakeNotificationService>();
 
         return services;
     }
