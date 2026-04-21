@@ -35,6 +35,8 @@ app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
+app.UseSerilogRequestLogging();
+
 app.UseAuthorization();
 
 app.MapControllers();

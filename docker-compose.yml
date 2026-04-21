@@ -17,3 +17,12 @@ services:
       - ./.containers/db/data:/var/lib/postgresql/data
     ports:
       - 5432:5432 
+
+  caseitau.seq:
+    image: datalust/seq:2023
+    container_name: CaseItau.Seq
+    environment:
+      ACCEPT_EULA: Y
+    ports:
+      - 5341:5431
+      - 8081:80
