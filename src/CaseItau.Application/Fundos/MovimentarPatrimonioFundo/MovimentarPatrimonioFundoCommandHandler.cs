@@ -17,11 +17,15 @@ public sealed class MovimentarPatrimonioFundoCommandHandler : ICommandHandler<Mo
 
     public async Task<Result> Handle(MovimentarPatrimonioFundoCommand request, CancellationToken cancellationToken)
     {
-        var fundo = await _fundoRepository.ObterAsync(request.Codigo, cancellationToken);
-        if (fundo is null)
-            return Result.Failure<string>(FundoErrors.NaoEncontrado(request.Codigo));
+        var fundoCodigoResult = FundoCodigo.Criar(request.Codigo);
+        if (fundoCodigoResult.IsFailure)
+            return Result.Failure(fundoCodigoResult.Error);
 
-        fundo.MovimentarPatrimonio(request.ValorMovimentacao);
+        var fundo = await _fundoRepository.ObterAsync(fundoCodigoResult.Value, cancellationToken);
+        if (fundo is null)
+            return Result.Failure(FundoErrors.NaoEncontrado(request.Codigo));
+
+        fundo.MovimentarPatrimonio(request.ValorMovimentacao);  
 
         _fundoRepository.Atualizar(fundo);
 

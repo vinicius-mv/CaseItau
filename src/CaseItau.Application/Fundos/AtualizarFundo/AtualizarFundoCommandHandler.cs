@@ -17,7 +17,11 @@ public sealed class AtualizarFundoCommandHandler : ICommandHandler<AtualizarFund
 
     public async Task<Result> Handle(AtualizarFundoCommand request, CancellationToken cancellationToken)
     {
-        var fundo = await _fundoRepository.ObterAsync(request.Codigo, cancellationToken);
+        var fundoCodigoResult = FundoCodigo.Criar(request.Codigo);
+        if (fundoCodigoResult.IsFailure)
+            return Result.Failure(fundoCodigoResult.Error);
+
+        var fundo = await _fundoRepository.ObterAsync(fundoCodigoResult.Value, cancellationToken);
         if (fundo is null)
             return Result.Failure(FundoErrors.NaoEncontrado(request.Codigo));
 

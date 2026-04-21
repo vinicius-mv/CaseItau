@@ -18,15 +18,19 @@ public class AdicionarFundoCommandHandler : ICommandHandler<AdicionarFundoComman
 
     public async Task<Result<string>> Handle(AdicionarFundoCommand request, CancellationToken cancellationToken)
     {
-        var fundoPorCodigo = await _fundoRepository.ObterAsync(request.Codigo, cancellationToken);
+        var fundoCodigoResult = FundoCodigo.Criar(request.Codigo);
+        if (fundoCodigoResult.IsFailure)
+            return Result.Failure<string>(fundoCodigoResult.Error);
+
+        var fundoPorCodigo = await _fundoRepository.ObterAsync(fundoCodigoResult.Value, cancellationToken);
         if (fundoPorCodigo is not null)
             return Result.Failure<string>(FundoErrors.CondigoIndisponivel(request.Codigo));
 
         var cnpjResult = Cnpj.Criar(request.Cnpj);
         if (cnpjResult.IsFailure)
-            return Result.Failure<string>(FundoErrors.CnpjInvalido(request.Cnpj));
+            return Result.Failure<string>(cnpjResult.Error);
 
-        var fundoPorCnpj = await _fundoRepository.ObterPorCnpjAsync(cnpjResult.Value.Value, cancellationToken);
+        var fundoPorCnpj = await _fundoRepository.ObterPorCnpjAsync(cnpjResult.Value, cancellationToken);
         if (fundoPorCnpj is not null)
             return Result.Failure<string>(FundoErrors.CnpjIndisponivel(request.Codigo));
 
