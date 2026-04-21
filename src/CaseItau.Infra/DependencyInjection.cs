@@ -1,4 +1,5 @@
 ﻿using CaseItau.Application.Abstractions.Data;
+using CaseItau.Application.Fundos;
 using CaseItau.Domain.Abstractions;
 using CaseItau.Domain.Fundos;
 using CaseItau.Infra.Data;
@@ -27,6 +28,7 @@ public static class DependencyInjection
 
         // Services
         services.AddScoped<IFundoRepository, FundoRepository>();
+        services.AddScoped<IFundoReadRepository, FundoReadRepository>();
 
         return services;
     }
