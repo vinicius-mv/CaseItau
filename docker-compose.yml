@@ -2,13 +2,18 @@ services:
   caseitau.api:
     image: ${DOCKER_REGISTRY-}caseitauapi
     container_name: CaseItau.Api
+    restart: unless-stopped
     build:
       context: .
       dockerfile: src/CaseItau.API/Dockerfile
-
+    depends_on:
+      - caseitau.db
+      - caseitau.seq
+      
   caseitau.db:
     image: postgres:16-alpine
     container_name: CaseItau.Db
+    restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -21,8 +26,11 @@ services:
   caseitau.seq:
     image: datalust/seq:2023
     container_name: CaseItau.Seq
+    restart: unless-stopped
     environment:
       ACCEPT_EULA: Y
     ports:
       - 5341:5431
       - 8081:80
+    volumes:
+      - ./.containers/seq/data:/data
