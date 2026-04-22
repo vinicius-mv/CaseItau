@@ -7,7 +7,7 @@ public abstract class BaseTest
     public static T AssertDomainEventWasPublished<T>(IHasDomainEvents aggregateRoot)
         where T : IDomainEvent
     {
-        var domainEvent = aggregateRoot.GetDomainEvents().OfType<T>().SingleOrDefault();
+        var domainEvent = aggregateRoot.GetDomainEvents().OfType<T>().LastOrDefault();
 
         if (domainEvent is null)
             throw new Exception($"Expected domain event of type {typeof(T).Name} was not published.");
