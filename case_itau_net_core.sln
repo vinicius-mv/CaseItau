@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaseItau.Infra", "src\CaseI
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaseItau.Domain.UnitTests", "test\CaseItau.Domain.UnitTests\CaseItau.Domain.UnitTests.csproj", "{30ACEC67-EE99-4B40-B883-5BBE63EF81FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30ACEC67-EE99-4B40-B883-5BBE63EF81FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30ACEC67-EE99-4B40-B883-5BBE63EF81FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30ACEC67-EE99-4B40-B883-5BBE63EF81FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30ACEC67-EE99-4B40-B883-5BBE63EF81FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +57,7 @@ Global
 		{6ECBF631-C51B-4E63-A1CF-02324B871319} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{591ADEEB-623C-4F44-8386-8BE2074CC0DC} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{A8D4EC24-7C1A-4B94-A517-E92212EFB9F6} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{30ACEC67-EE99-4B40-B883-5BBE63EF81FC} = {BFEF413A-74FA-4113-9E6B-B90E4DD29351}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F252B643-96AF-4290-BDCE-E22723860728}

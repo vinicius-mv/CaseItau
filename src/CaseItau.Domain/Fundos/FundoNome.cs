@@ -2,7 +2,7 @@
 
 namespace CaseItau.Domain.Fundos;
 
-public class FundoNome
+public record FundoNome
 {
     public const int MaxLength = 100;
 
