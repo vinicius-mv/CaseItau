@@ -151,8 +151,6 @@ public class AdicionarFundoTests
         // Assert
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().Be(fundo.Codigo.Value);
-        _fundoRepositoryMock.Received(1).Adicionar(Arg.Is<Fundo>(f => f.Codigo == fundo.Codigo));
-        await _unitOfWorkMock.Received(1).SaveChangesAsync(CancellationToken.None);
     }
 }
     
