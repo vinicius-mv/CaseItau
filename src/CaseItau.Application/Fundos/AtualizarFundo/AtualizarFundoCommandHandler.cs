@@ -25,6 +25,15 @@ public sealed class AtualizarFundoCommandHandler : ICommandHandler<AtualizarFund
         if (fundo is null)
             return Result.Failure(FundoErrors.NaoEncontrado(request.Codigo));
 
+        var cnpj = Cnpj.Criar(request.Cnpj);
+        if (cnpj.IsFailure)
+            return Result.Failure(cnpj.Error);
+
+        var fundoPorCnpj = await _fundoRepository.ObterPorCnpjAsync(cnpj.Value, cancellationToken);
+        if (fundoPorCnpj is not null && 
+            fundoPorCnpj.Codigo != fundo.Codigo)
+            return Result.Failure(FundoErrors.CnpjIndisponivel(request.Cnpj));
+
         var tipoFundo = await _fundoRepository.ObterTipoFundoAsync(request.CodigoTipo, cancellationToken);
         if (tipoFundo is null)
             return Result.Failure(FundoErrors.TipoFundoInvalido(request.CodigoTipo));
