@@ -9,7 +9,7 @@ public static class FundoErrors
             code: "Fundo.NaoEncontrado",
             description: $"O fundo com código {fundoCodigo} não foi encontrado");
 
-    public static Error CondigoIndisponivel(string fundoCodigo) =>
+    public static Error CodigoIndisponivel(string fundoCodigo) =>
         Error.Conflict(
             code: "Fundo.CodigoInvalido",
             description: $"Fundo com código {fundoCodigo} já foi registrado");
