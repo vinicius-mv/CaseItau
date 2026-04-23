@@ -26,10 +26,13 @@ builder.Services.AddInfra(builder.Configuration);
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    app.ApplyMigrations();
+}
 await DatabaseSeeder.SeedData(app.Services);
-
-app.UseSwagger();
-app.UseSwaggerUI();
 
 app.UseExceptionHandler();
 
