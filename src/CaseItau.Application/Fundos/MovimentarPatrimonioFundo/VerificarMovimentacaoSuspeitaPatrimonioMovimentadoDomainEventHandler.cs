@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CaseItau.Application.Fundos.MovimentarPatrimonioFundo;
 
-internal sealed class VerificarMovimentacaoSuspeitaPatrimonioMovimentadoDomainEventHandler
+public sealed class VerificarMovimentacaoSuspeitaPatrimonioMovimentadoDomainEventHandler
     : INotificationHandler<PatrimonioMovimentadoDomainEvent>
 {
     private const decimal LimiteMinimoVerificacao = 1_000_000m;

@@ -4,7 +4,7 @@ using CaseItau.Domain.Fundos;
 using FluentAssertions;
 using NSubstitute;
 
-namespace CaseItau.Application.UnitTests.Fundos;
+namespace CaseItau.Application.UnitTests.Fundos.AtualizarFundo;
 
 public class AtualizarFundoTests
 {

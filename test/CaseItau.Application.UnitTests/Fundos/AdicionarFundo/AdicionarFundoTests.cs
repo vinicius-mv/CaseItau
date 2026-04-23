@@ -1,10 +1,11 @@
 using CaseItau.Application.Fundos.AdicionarFundo;
+using CaseItau.Application.Fundos.AtualizarFundo;
 using CaseItau.Domain.Abstractions;
 using CaseItau.Domain.Fundos;
 using FluentAssertions;
 using NSubstitute;
 
-namespace CaseItau.Application.UnitTests.Fundos;
+namespace CaseItau.Application.UnitTests.Fundos.AdicionarFundo;
 
 public class AdicionarFundoTests
 {
@@ -15,8 +16,8 @@ public class AdicionarFundoTests
         CodigoTipo: FundoData.TipoFundo.CodigoTipo);
 
     private readonly AdicionarFundoCommandHandler _handler;
-    private static readonly IFundoRepository _fundoRepositoryMock = Substitute.For<IFundoRepository>();
-    private static readonly IUnitOfWork _unitOfWorkMock = Substitute.For<IUnitOfWork>();
+    private readonly IFundoRepository _fundoRepositoryMock = Substitute.For<IFundoRepository>();
+    private readonly IUnitOfWork _unitOfWorkMock = Substitute.For<IUnitOfWork>();
 
     public AdicionarFundoTests()
     {
