@@ -2,28 +2,28 @@
   {
     "codigo": "ITAURF123",
     "nome": "ITAU JUROS RF +",
-    "cnpj": "11222333444455",
+    "cnpj": "94094799000176",
     "codigoTipo": 1,
     "patrimonio": 5498731.54
   },
   {
     "codigo": "ITAUMM999",
     "nome": "ITAU TREND MM",
-    "cnpj": "12222333444455",
+    "cnpj": "27462582000184",
     "codigoTipo": 3,
     "patrimonio": 5
   },
   {
     "codigo": "ITAURF321",
     "nome": "ITAU LONGO PRAZO RF +",
-    "cnpj": "13222333444455",
+    "cnpj": "74061531000120",
     "codigoTipo": 1,
     "patrimonio": 7875421.58
   },
   {
     "codigo": "ITAUAC546",
     "nome": "ITAU ACOES DIVIDENDO",
-    "cnpj": "14222333444455",
+    "cnpj": "59896004000142",
     "codigoTipo": 2,
     "patrimonio": 66421254.83
   }
