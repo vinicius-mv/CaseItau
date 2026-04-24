@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CaseItau.Application.IntegrationTests.Common;
 
-public abstract class BaseIntegrationTest : IClassFixture<IntegrationTestWebAppFactory>
+public abstract class BaseIntegrationTest : IClassFixture<IntegrationTestWebAppFactory>, IDisposable
 {
     private readonly IServiceScope _scope;
     protected readonly ISender Sender;
@@ -17,4 +17,6 @@ public abstract class BaseIntegrationTest : IClassFixture<IntegrationTestWebAppF
         Sender = _scope.ServiceProvider.GetRequiredService<ISender>();
         DbContext = _scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     }
+
+    public void Dispose() => _scope.Dispose();
 }

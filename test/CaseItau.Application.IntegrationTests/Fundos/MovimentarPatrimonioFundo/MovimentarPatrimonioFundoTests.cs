@@ -79,17 +79,6 @@ public class MovimentarPatrimonioFundoTests : BaseIntegrationTest
         await act.Should().ThrowAsync<ValidationException>();
     }
 
-    // -------------------------------------------------------------------------
-    // EventHandler – VerificarMovimentacaoSuspeitaPatrimonioMovimentadoDomainEventHandler
-    //
-    // Regras do EventHandler:
-    //   – movimentações com valor absoluto < R$ 1.000.000 são sempre regulares
-    //   – depósitos (valor > 0) nunca configuram saque de alto risco
-    //   – saques com valor absoluto > R$ 1.000.000 E > 20% do patrimônio anterior
-    //     são considerados de alto risco e disparam notificação
-    //   – em qualquer cenário o EventHandler NÃO interrompe o comando principal
-    // -------------------------------------------------------------------------
-
     [Fact]
     public async Task MovimentarPatrimonio_Deve_RetornarSucesso_Quando_MovimentacaoAbaixoDoLimiteDeVerificacao()
     {

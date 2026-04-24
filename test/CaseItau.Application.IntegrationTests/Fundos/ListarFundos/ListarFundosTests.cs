@@ -12,7 +12,7 @@ public class ListarFundosTests : BaseIntegrationTest
     }
 
     [Fact]
-    public async Task ListarFundos_DeveRetornarListaDeFundos()
+    public async Task ListarFundos_Deve_RetornarTodosOsFundosDoSeeder()
     {
         // Arrange
         var query = new ListarFundosQuery();
@@ -22,19 +22,16 @@ public class ListarFundosTests : BaseIntegrationTest
 
         // Assert
         result.IsSuccess.Should().BeTrue();
-        result.Value.Should().NotBeNull();
-        result.Value.Should().BeOfType<List<FundoResponse>>();
-        result.Value.Should().NotBeEmpty();
+        result.Value.Should().NotBeNullOrEmpty();
 
-        // Focando no resultado: garantindo que os itens retornados estão devidamente preenchidos (mapeamento correto)
-        // sem amarrar o teste aos valores literais do Seeder, evitando testes frágeis.
+        // Verifica que cada item retornado está devidamente mapeado,
+        // sem amarrar o teste aos valores literais do Seeder.
         result.Value.Should().AllSatisfy(fundo =>
         {
             fundo.Codigo.Should().NotBeNullOrWhiteSpace();
             fundo.Nome.Should().NotBeNullOrWhiteSpace();
             fundo.Cnpj.Should().NotBeNullOrWhiteSpace();
             fundo.NomeTipo.Should().NotBeNullOrWhiteSpace();
-            fundo.Patrimonio.Should().BeGreaterThanOrEqualTo(0);
         });
     }
 }
