@@ -4,11 +4,11 @@ using System.Data;
 
 namespace CaseItau.Infra.Data;
 
-internal sealed class SqliteConnectionFactory : ISqlConnectionFactory
+public sealed class SqlConnectionFactory : ISqlConnectionFactory
 {
     private readonly string _connectionString;
 
-    public SqliteConnectionFactory(string connectionString)
+    public SqlConnectionFactory(string connectionString)
     {
         _connectionString = connectionString;
     }

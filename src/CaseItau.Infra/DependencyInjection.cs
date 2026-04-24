@@ -20,7 +20,7 @@ public static class DependencyInjection
         var connectionString = config.GetConnectionString("Database") ??
             throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-        services.AddSingleton<ISqlConnectionFactory>(sp => new SqliteConnectionFactory(connectionString));
+        services.AddSingleton<ISqlConnectionFactory>(sp => new SqlConnectionFactory(connectionString));
 
         // Entity Framework Core
         services.AddDbContext<ApplicationDbContext>(options =>
