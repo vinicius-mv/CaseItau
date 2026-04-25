@@ -1,4 +1,5 @@
 ﻿using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace CaseItau.API.Extensions;
 
@@ -12,10 +13,12 @@ internal static class SwaggerExtensions
             {
                 Title = "CaseItau.API",
                 Version = "v1",
-                Description = "API para controle e cadastro de fundos"
+                Description = "API para controle e cadastro de fundos de investimento."
             });
 
-            //options.CustomSchemaIds(t => t.FullName?.Replace("+", "."));
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            options.IncludeXmlComments(xmlPath);
         });
 
         return services;
