@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaseItau.Application.UnitTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaseItau.Application.IntegrationTests", "test\CaseItau.Application.IntegrationTests\CaseItau.Application.IntegrationTests.csproj", "{5C3561D7-792B-4408-A9FB-F7F2DECB3C19}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaseItau.Api.FunctionalTests", "test\CaseItau.Api.FunctionalTests\CaseItau.Api.FunctionalTests.csproj", "{E202B102-B6D5-4118-9895-AF8E13BA2C0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +62,10 @@ Global
 		{5C3561D7-792B-4408-A9FB-F7F2DECB3C19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C3561D7-792B-4408-A9FB-F7F2DECB3C19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C3561D7-792B-4408-A9FB-F7F2DECB3C19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E202B102-B6D5-4118-9895-AF8E13BA2C0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E202B102-B6D5-4118-9895-AF8E13BA2C0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E202B102-B6D5-4118-9895-AF8E13BA2C0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E202B102-B6D5-4118-9895-AF8E13BA2C0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +78,7 @@ Global
 		{30ACEC67-EE99-4B40-B883-5BBE63EF81FC} = {BFEF413A-74FA-4113-9E6B-B90E4DD29351}
 		{141BFA16-A04B-4DD0-B2CA-620C447141C9} = {BFEF413A-74FA-4113-9E6B-B90E4DD29351}
 		{5C3561D7-792B-4408-A9FB-F7F2DECB3C19} = {BFEF413A-74FA-4113-9E6B-B90E4DD29351}
+		{E202B102-B6D5-4118-9895-AF8E13BA2C0E} = {BFEF413A-74FA-4113-9E6B-B90E4DD29351}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F252B643-96AF-4290-BDCE-E22723860728}
