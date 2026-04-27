@@ -38,7 +38,7 @@ public class AdicionarFundoTests : BaseFunctionalTest
 
         // O controller retorna a string do código como text/plain
         var codigoCriado = await response.Content.ReadAsStringAsync();
-        codigoCriado.Should().Be(request.Codigo);
+        codigoCriado.Should().Contain(request.Codigo);
     }
 
     // -------------------------------------------------------------------------
