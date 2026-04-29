@@ -1,6 +1,5 @@
 # Case de Engenharia Itaú — .NET Core
 
-> Solução desenvolvida como parte do processo seletivo de engenharia de software do Itaú Unibanco.  
 > O projeto original (commit `88b7fb57`) foi completamente refatorado, corrigindo bugs críticos e elevando o código a padrões de qualidade de produção.
 >
 > O enunciado original do desafio está preservado em [`DESAFIO.md`](./DESAFIO.md).
