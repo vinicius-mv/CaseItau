@@ -7,4 +7,4 @@ public sealed record AtualizarFundoCommand(
     string Nome,
     string Cnpj,
     int CodigoTipo)
-    : ICommand;
+    : ICommand, IFundoCommand;
