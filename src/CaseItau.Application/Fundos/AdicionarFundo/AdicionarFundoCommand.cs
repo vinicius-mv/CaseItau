@@ -6,5 +6,5 @@ public sealed record AdicionarFundoCommand(
     string Codigo,
     string Nome,
     string Cnpj,
-    int CodigoTipo) 
-    : ICommand<string>;
+    int CodigoTipo)
+    : ICommand<string>, IFundoCommand;
